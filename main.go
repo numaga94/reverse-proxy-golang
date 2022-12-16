@@ -9,7 +9,7 @@ import (
 func main() {
 	proxy := httputil.NewSingleHostReverseProxy(&url.URL{
 		Scheme: "http",
-		Host:   "10.0.0.40:8081",
+		Host:   "10.0.0.70:8081",
 	})
 	http.ListenAndServe(":8081", proxy)
 }
