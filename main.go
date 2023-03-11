@@ -15,11 +15,9 @@ func main() {
 		fmt.Println("loading env failed")
 	}
 
-	host := os.Getenv("HOST")
-
 	proxy := httputil.NewSingleHostReverseProxy(&url.URL{
 		Scheme: "http",
-		Host:   host,
+		Host:   os.Getenv("HOST"),
 	})
-	http.ListenAndServe(":8081", proxy)
+	http.ListenAndServe(fmt.Sprintf(":%v", os.Getenv("PORT")), proxy)
 }
