@@ -73,7 +73,7 @@ func main() {
 	}
 
 	// initialize a reverse proxy and pass the actual backend server url here
-	proxy, err := NewProxy(os.Getenv("HOST"))
+	proxy, err := NewProxy(fmt.Sprintf("http://%v", os.Getenv("HOST")))
 	if err != nil {
 		panic(err)
 	}
