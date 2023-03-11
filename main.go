@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -37,16 +36,12 @@ func NewProxy(targetHost string) (*httputil.ReverseProxy, error) {
 	originalDirector := proxy.Director
 	proxy.Director = func(req *http.Request) {
 		originalDirector(req)
-		modifyRequest(req)
+		// modifyRequest(req)
 	}
 
-	proxy.ModifyResponse = modifyResponse()
+	// proxy.ModifyResponse = modifyResponse()
 	proxy.ErrorHandler = errorHandler()
 	return proxy, nil
-}
-
-func modifyRequest(req *http.Request) {
-	req.Header.Set("X-Proxy", "Simple-Reverse-Proxy")
 }
 
 func errorHandler() func(http.ResponseWriter, *http.Request, error) {
@@ -55,11 +50,15 @@ func errorHandler() func(http.ResponseWriter, *http.Request, error) {
 	}
 }
 
-func modifyResponse() func(*http.Response) error {
-	return func(resp *http.Response) error {
-		return errors.New("response body is invalid")
-	}
-}
+// func modifyRequest(req *http.Request) {
+// 	req.Header.Set("X-Proxy", "Simple-Reverse-Proxy")
+// }
+
+// func modifyResponse() func(*http.Response) error {
+// 	return func(resp *http.Response) error {
+// 		return errors.New("response body is invalid")
+// 	}
+// }
 
 // ProxyRequestHandler handles the http request using proxy
 func ProxyRequestHandler(proxy *httputil.ReverseProxy) func(http.ResponseWriter, *http.Request) {
