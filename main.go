@@ -47,10 +47,15 @@ func main() {
 	}
 
 	// initialize a reverse proxy and pass the actual backend server url here
-	proxy, err := NewProxy(os.Getenv("HOST"))
-	if err != nil {
-		panic(err)
-	}
+	// proxy, err := NewProxy(os.Getenv("HOST"))
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	proxy := httputil.NewSingleHostReverseProxy(&url.URL{
+		Scheme: "http",
+		Host:   os.Getenv("HOST"),
+	})
 
 	// handle all requests to your server using the proxy
 	http.HandleFunc("/", ProxyRequestHandler(proxy))
